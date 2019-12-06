@@ -60,8 +60,6 @@ void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
 	}
 }
 
-
-
 //旋转数组
 
 void reverse(int* nums, int start, int end)
@@ -81,21 +79,71 @@ void rotate(int* nums, int numsSize, int k){
 	reverse(nums, 0, numsSize - 1);
 	reverse(nums, 0, k - 1);
 	reverse(nums, k, numsSize - 1);
-}void reverse(int* nums, int start, int end)
-{
-	while (start < end)
-	{
-		int t = nums[start];
-		nums[start] = nums[end];
-		nums[end] = t;
-		start++;
-		end--;
-	}
 }
 
-void rotate(int* nums, int numsSize, int k){
-	k %= numsSize;
-	reverse(nums, 0, numsSize - 1);
-	reverse(nums, 0, k - 1);
-	reverse(nums, k, numsSize - 1);
+
+
+
+
+
+
+//数组形式的整数加法
+/**
+* Note: The returned array must be malloced, assume caller calls free().
+*/
+
+void reverse(int* arr, int i)
+{
+	int left = 0;
+	int right = i - 1;
+	while (left < right)
+	{
+		int t = arr[left];
+		arr[left] = arr[right];
+		arr[right] = t;
+		left++;
+		right--;
+	}
+}
+int* addToArrayForm(int* A, int ASize, int K, int* returnSize){
+	int* arr = (int*)malloc(sizeof(int)* 10001);
+	int endA = ASize - 1;
+	int next = 0;//进位数
+	int i = 0;
+	while (endA >= 0 || K > 0)
+	{
+		int x1 = 0;
+		int x2 = 0;
+		if (endA >= 0)
+		{
+			x1 = A[endA];
+			endA--;
+		}
+		if (K >= 0)
+		{
+			x2 = K % 10;
+			K /= 10;
+		}
+		int ret = x1 + x2 + next;
+		if (ret > 9)
+		{
+			ret %= 10;
+			next = 1;
+		}
+		else
+		{
+			next = 0;
+		}
+
+		arr[i] = ret;
+		i++;
+	}
+	if (next == 1)
+	{
+		arr[i] = next;
+		i++;
+	}
+	reverse(arr, i);
+	*returnSize = i;
+	return arr;
 }
