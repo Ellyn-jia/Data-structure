@@ -1,3 +1,4 @@
+
 #include"SList.h"
 
 void Test()
@@ -29,6 +30,9 @@ void Test()
 	SListPopBack(&plist);
 
 	SListPrint(plist);
+
+	SListNode* ret = SListFind(plist, 6);
+	SListInsertAfter(ret, 30);
 
 	SListPrint(plist);
 }

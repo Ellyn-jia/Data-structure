@@ -78,8 +78,28 @@ void SListPopFront(SListNode** pplist)
 	}
 }
 
-
-void SListInsertAfter(SListNode**pplist, SListNode* pos, SLDataType x)
+SListNode* SListFind(SListNode* plist, SLDataType x)
 {
-	
+	SListNode* cur = plist;
+	while (cur)
+	{
+		if (cur->data == x)
+		{
+			return cur;
+		}
+		else
+		{
+			cur = cur->next;
+		}
+	}
+	return NULL;
+}
+
+void SListInsertAfter(SListNode* pos, SLDataType x)
+{
+	SListNode* newNode = BuySListNode(x);
+	SListNode* next = pos->next;
+	pos->next = newNode;
+	newNode->next = next;
+
 }

@@ -16,5 +16,7 @@ void SListPushBack(SListNode** pplist, SLDataType x);
 void SListPushFront(SListNode** pplist, SLDataType x);
 void SListPopBack(SListNode** pplist);
 void SListPopFront(SListNode** pplist);
+SListNode* SListFind(SListNode* plist, SLDataType x);
 void SListInsertAfter(SListNode* pos, SLDataType x);
 void SListEraseAfter(SListNode* pos);
+
