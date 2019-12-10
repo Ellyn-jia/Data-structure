@@ -101,5 +101,24 @@ void SListInsertAfter(SListNode* pos, SLDataType x)
 	SListNode* next = pos->next;
 	pos->next = newNode;
 	newNode->next = next;
-
+}
+void SListEraseAfter(SListNode* pos)
+{
+	SListNode* next = pos->next;
+	if (next)
+	{
+		pos->next = next->next;
+		free(next);
+	}
+}
+void SListDestory(SListNode** pplist)
+{
+	SListNode* cur = *pplist;
+	while (cur)
+	{
+		SListNode* next = cur->next;
+		free(cur);
+		cur = next;
+	}
+	*pplist = NULL;
 }
