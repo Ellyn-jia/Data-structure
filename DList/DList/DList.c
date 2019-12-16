@@ -68,9 +68,45 @@ void ListPopBack(ListNode* phead)
 	tail->prev->next = phead;
 	free(tail);
 }
-void ListPopFront(ListNode* phead);
-ListNode* ListFind(ListNode* phead, LTDataType x);
-void ListInsert(ListNode* pos, LTDataType x);
-void ListErase(ListNode* pos);
+void ListPopFront(ListNode* phead)
+{
+	ListNode* first = phead->next;
+	ListNode* second = first->next->next;
+	phead->next = first->next;
+	second->prev = phead;
+	free(first);
+}
+ListNode* ListFind(ListNode* phead, LTDataType x)
+{
+	ListNode* cur = phead->next;
+	while (cur != phead)
+	{
+		if (cur->data != x)
+		{
+			cur = cur->next;
+		}
+		else
+		{
+			return cur;
+		}
+	}
+	return NULL;
+}
+void ListInsert(ListNode* pos, LTDataType x)
+{
+	ListNode* prev = pos->prev;
+	ListNode* newNode = BuyNode(x);
+	prev->next = newNode;
+	newNode->prev = prev;
+	pos->prev = newNode;
+	newNode->next = pos;
+}
+void ListErase(ListNode* pos)
+{
+	ListNode* prev = pos->prev;
+	prev->next = pos->next;
+	pos->next->prev = prev;
+	free(pos);
+}
 
 
