@@ -9,7 +9,6 @@ void Test()
 
 	ListPushFront(phead, 3);
 	ListPushFront(phead, 4);	
-	ListPushFront(phead, 5);
 	ListPrint(phead);
 
 	ListPopBack(phead);
@@ -24,6 +23,7 @@ void Test()
 
 	ListErase(pos);
 	ListPrint(phead);
+	ListDestory(phead);
 }
 
 int main()

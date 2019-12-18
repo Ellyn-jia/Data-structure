@@ -71,7 +71,7 @@ void ListPopBack(ListNode* phead)
 void ListPopFront(ListNode* phead)
 {
 	ListNode* first = phead->next;
-	ListNode* second = first->next->next;
+	ListNode* second = first->next;
 	phead->next = first->next;
 	second->prev = phead;
 	free(first);
@@ -108,5 +108,3 @@ void ListErase(ListNode* pos)
 	pos->next->prev = prev;
 	free(pos);
 }
-
-
