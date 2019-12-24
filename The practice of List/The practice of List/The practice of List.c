@@ -28,3 +28,23 @@ struct ListNode* reverseList(struct ListNode* head){
 	cur->next = prev;
 	return cur;
 }
+
+//返回链表中间元素
+typedef struct ListNode ListNode;
+struct ListNode* middleNode(struct ListNode* head){
+	int count = 0;
+	ListNode* cur = head;
+	ListNode* Node = head;
+	while (cur)
+	{
+		cur = cur->next;
+		count++;
+	}
+	count = count / 2;
+	while (count)
+	{
+		Node = Node->next;
+		count--;
+	}
+	return Node;
+}
