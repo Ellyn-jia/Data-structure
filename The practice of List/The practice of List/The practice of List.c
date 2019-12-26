@@ -48,3 +48,40 @@ struct ListNode* middleNode(struct ListNode* head){
 	}
 	return Node;
 }
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+public:
+	ListNode* FindKthToTail(ListNode* pListHead, unsigned int k) {
+		if (pListHead == NULL || k <= 0)
+		{
+			return NULL;
+		}
+		ListNode* first = pListHead;
+		ListNode* second = pListHead;
+		while (k && second)
+		{
+			second = second->next;
+			k--;
+		}
+		if (k > 0)
+		{
+			return NULL;
+		}
+		while (second)
+		{
+			first = first->next;
+			second = second->next;
+		}
+		return first;
+	}
+};
