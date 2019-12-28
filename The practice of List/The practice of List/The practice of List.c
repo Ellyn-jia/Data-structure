@@ -85,3 +85,30 @@ public:
 		return first;
 	}
 };
+
+
+typedef struct ListNode ListNode;
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
+	if (l1 == NULL && l2 == NULL)
+		return NULL;
+	ListNode* head1 = l1;
+	ListNode* head2 = l2;
+	while (head1 && head2)
+	{
+		ListNode* next1 = head1->next;
+		ListNode* next2 = head2->next;
+		if (head1->val <= head2->val)
+		{
+			head1->next = head2;
+			head2->next = next1;
+			head1 = next1;
+			head2 = next2;
+		}
+		else
+		{
+
+		}
+	}
+	return l1;
+}
+
