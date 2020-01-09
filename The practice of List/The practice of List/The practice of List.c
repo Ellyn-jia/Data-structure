@@ -52,6 +52,23 @@ struct ListNode* middleNode(struct ListNode* head){
 
 
 
+/**
+* Definition for singly-linked list.
+* struct ListNode {
+*     int val;
+*     struct ListNode *next;
+* };
+*/
+
+typedef struct ListNode ListNode;
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
+
+}
+
+
+
+
+
 
 
 
