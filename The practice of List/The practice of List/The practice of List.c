@@ -112,8 +112,45 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
 
 
 
+//Á´±í·Ö¸î
 
 
+/*
+struct ListNode {
+int val;
+struct ListNode *next;
+ListNode(int x) : val(x), next(NULL) {}
+};*/
+class Partition {
+public:
+	ListNode* partition(ListNode* pHead, int x) {
+		// write code here
+		if (pHead == NULL)
+			return pHead;
+		struct ListNode* lHead, *gHead, *lTail, *gTail;
+		lHead = lTail = (struct ListNode*)malloc(sizeof(struct ListNode));
+		gHead = gTail = (struct ListNode*)malloc(sizeof(struct ListNode));
+		struct ListNode* cur = pHead;
+		if (cur->val < x)
+		{
+			lHead->next = cur;
+			cur = cur->next;
+			lTail = lTail->next;
+		}
+		else
+		{
+			gHead->next = cur;
+			cur = cur->next;
+			gTail = gTail->next;
+		}
+		lTail->next = gHead->next;
+		gTail->next = NULL;
+		pHead = lTail->next;
+		free(lHead);
+		free(gHead);
+		return pHead;
+	}
+};
 
 
 
