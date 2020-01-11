@@ -51,6 +51,10 @@ struct ListNode* middleNode(struct ListNode* head){
 
 
 
+//合并两个有序链表
+
+
+// 创建一个新的带头单链表，每次取小的尾插
 
 /**
 * Definition for singly-linked list.
@@ -62,10 +66,49 @@ struct ListNode* middleNode(struct ListNode* head){
 
 typedef struct ListNode ListNode;
 struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
-
+	if (l1 == NULL)
+	{
+		return l2;
+	}
+	else if (l2 == NULL)
+	{
+		return l1;
+	}
+	else
+	{
+		ListNode* head = NULL;
+		ListNode* tail = NULL;
+		head = tail = (ListNode*)malloc(sizeof(ListNode));
+		head->next = NULL;
+		while (l1 && l2)
+		{
+			tail->next = NULL;
+			if (l1->val < l2->val)
+			{
+				tail->next = l1;
+				tail = tail->next;
+				l1 = l1->next;
+			}
+			else
+			{
+				tail->next = l2;
+				tail = tail->next;
+				l2 = l2->next;
+			}
+		}
+		if (l2)
+		{
+			tail->next = l2;
+		}
+		if (l1)
+		{
+			tail->next = l1;
+		}
+		ListNode* L = head->next;
+		free(head);
+		return L;
+	}
 }
-
-
 
 
 
