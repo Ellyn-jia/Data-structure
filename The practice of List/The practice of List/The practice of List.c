@@ -234,3 +234,27 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 	}    
 	return NULL; 
 }
+
+
+
+
+
+
+//ÅĞ¶ÏÊÇ·ñÓĞ»·
+
+
+typedef struct ListNode Node; bool hasCycle(struct ListNode *head) {
+	Node* slow = head;   
+	Node* fast = head;
+
+	while (fast && fast->next) 
+	{
+		slow = slow->next;      
+		fast = fast->next->next;
+
+		if (slow == fast)     
+			return true;
+	}
+
+	return false;
+}
