@@ -258,3 +258,48 @@ typedef struct ListNode Node; bool hasCycle(struct ListNode *head) {
 
 	return false;
 }
+
+
+//链表插入排序
+
+typedef struct ListNode Node; struct ListNode* insertionSortList(struct ListNode* head){
+	if (head == NULL || head->next == NULL)
+		return head;
+	//创建排序链表   
+	Node* sortHead = (Node*)malloc(sizeof(Node));
+	//头节点首先插入   
+	sortHead->next = head;
+	head = head->next;
+	sortHead->next->next = NULL;
+	//插入剩余节点 
+	Node* cur = head;
+	while (cur)
+	{
+		//首先保存next节点    
+		Node* next = cur->next;
+		// 从排序链表的头开始，给待插入的节点找到一个合适的位置       
+		Node* sortPrev = sortHead;
+		Node* sortCur = sortHead->next;
+		while (sortCur)
+		{
+			if (cur->val > sortCur->val)
+			{
+				sortPrev = sortCur;
+				sortCur = sortCur->next;
+			}
+			else
+			{
+				break;
+			}
+		}
+		//在合适位置进行插入    
+		sortPrev->next = cur;
+		cur->next = sortCur;
+		cur = next;
+	}
+
+	Node* sortList = sortHead->next;
+	free(sortHead);
+
+	return sortList;
+}
