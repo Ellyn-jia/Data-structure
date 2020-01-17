@@ -354,3 +354,66 @@ public:    ListNode* deleteDuplication(ListNode* pHead)    {
 			   return pHead; 
 }
 };
+
+
+
+
+//
+
+
+class Solution {
+public:    Node* copyRandomList(Node* head) {       
+			   // 1.拷贝链表，并插入到原节点的后面    
+			   Node* cur = head;      
+			   while(cur)      
+			   {         
+				   Node* next = cur->next;
+
+			   
+				   Node* copy = (Node*)malloc(sizeof(Node));        
+				   copy->val = cur->val;
+
+	           
+				   cur->next = copy;            
+				   copy->next = next;
+
+				   cur = next;      
+			   }
+
+			   cur = head;      
+			   while(cur)      
+			   {         
+				   Node* copy = cur->next;  
+				   if(cur->random != NULL)
+					   copy->random = cur->random->next;
+				   else                
+					   copy->random = NULL;
+				   cur =copy->next;
+			   }
+
+			   Node* copyHead = NULL, *copyTail = NULL;       
+			   cur = head;      
+			   while(cur)     
+			   {          
+				   Node* copy = cur->next;   
+				   Node* next = copy->next;
+
+				   if(copyTail == NULL)       
+				   {              
+					   copyHead = copyTail = copy;        
+				   }           
+				   else        
+				   {          
+					   copyTail->next = copy;  
+					   copyTail = copy;     
+				   }
+
+			   
+				   cur->next = next;
+
+			   
+				   cur = next;
+}
+
+		   return copyHead;
+} };
