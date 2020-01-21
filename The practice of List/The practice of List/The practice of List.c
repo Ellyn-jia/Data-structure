@@ -112,43 +112,47 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
 
 
 
-//链表分割
-
-
+//以给定值x为基准将链表分割成两部分，所有小于x的结点排在大于或等于x的结点之前
 /*
 struct ListNode {
 int val;
 struct ListNode *next;
 ListNode(int x) : val(x), next(NULL) {}
 };*/
+
 class Partition {
 public:
 	ListNode* partition(ListNode* pHead, int x) {
 		// write code here
 		if (pHead == NULL)
 			return pHead;
-		struct ListNode* lHead, *gHead, *lTail, *gTail;
-		lHead = lTail = (struct ListNode*)malloc(sizeof(struct ListNode));
-		gHead = gTail = (struct ListNode*)malloc(sizeof(struct ListNode));
-		struct ListNode* cur = pHead;
-		if (cur->val < x)
+		ListNode* cur = pHead;
+		ListNode* small;
+		ListNode* bigger;
+		less = bigger = (ListNode*)malloc(sizeof(ListNode));
+		ListNode* ps = less;
+		ListNode* pb = bigger;
+		while (cur)
 		{
-			lHead->next = cur;
-			cur = cur->next;
-			lTail = lTail->next;
+			if (cur->val < x)
+			{
+				ps->next = cur;
+				cur = cur->next;
+				ps = ps->next;
+			}
+			else
+			{
+				pb->next = cur;
+				cur = cur->next;
+				pb = pb->next;
+			}
 		}
-		else
-		{
-			gHead->next = cur;
-			cur = cur->next;
-			gTail = gTail->next;
-		}
-		lTail->next = gHead->next;
-		gTail->next = NULL;
-		pHead = lTail->next;
-		free(lHead);
-		free(gHead);
-		return pHead;
+		ps->next = bigger->next;
+		pb->next = NULL;
+		ListNode* p = less->next;
+		free(less);
+		free(bigger);
+		return p;
 	}
 };
 
