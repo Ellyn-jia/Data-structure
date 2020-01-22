@@ -127,34 +127,33 @@ public:
 		if (pHead == NULL)
 			return pHead;
 		ListNode* cur = pHead;
-		ListNode* small;
-		ListNode* bigger;
-		less = bigger = (ListNode*)malloc(sizeof(ListNode));
-		ListNode* ps = less;
-		ListNode* pb = bigger;
+		ListNode* less, *bigger, *ps, *pb;
+		ps = less = (ListNode*)malloc(sizeof(ListNode));
+		pb = bigger = (ListNode*)malloc(sizeof(ListNode));
 		while (cur)
 		{
 			if (cur->val < x)
 			{
 				ps->next = cur;
-				cur = cur->next;
 				ps = ps->next;
+				cur = cur->next;
 			}
 			else
 			{
 				pb->next = cur;
-				cur = cur->next;
 				pb = pb->next;
+				cur = cur->next;
 			}
 		}
 		ps->next = bigger->next;
 		pb->next = NULL;
-		ListNode* p = less->next;
+		pHead = less->next;
 		free(less);
 		free(bigger);
-		return p;
+		return pHead;
 	}
 };
+
 
 
 
@@ -421,3 +420,6 @@ public:    Node* copyRandomList(Node* head) {
 
 		   return copyHead;
 } };
+
+
+
