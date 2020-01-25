@@ -42,3 +42,8 @@ bool isValid(char* s) {
 				}       
 			}      
 		}
+
+
+
+
+		//用队列实现栈
