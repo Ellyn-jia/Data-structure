@@ -159,6 +159,49 @@ public:
 
 //Á´±í»ØÎÄ
 
+/*
+struct ListNode {
+int val;
+struct ListNode *next;
+ListNode(int x) : val(x), next(NULL) {}
+};*/
+class PalindromeList {
+public:
+	bool chkPalindrome(ListNode* A) {
+		// write code here
+		if (A == NULL || A->next == NULL)
+		{
+			return true;
+		}
+		ListNode* slow, *fast, *cur, *next, *prev;
+		slow = fast = A;
+		while (fast && fast->next)
+		{
+			slow = slow->next;
+			fast = fast->next->next;
+		}
+		cur = slow;
+		prev = NULL;
+		while (cur)
+		{
+			next = cur->next;
+			cur->next = prev;
+			prev = cur;
+			cur = next;
+		}
+		while (prev)
+		{
+			if (A->val != prev->val)
+			{
+				return false;
+			}
+			prev = prev->next;
+			A = A->next;
+		}
+		return true;
+	}
+};
+
 
 
 
