@@ -210,7 +210,7 @@ public:
 
 
 
-
+//找到两个单链表相交的起始节点。
 
 
 
@@ -225,8 +225,10 @@ public:
 struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
 	struct ListNode* curA = headA;
 	struct ListNode* curB = headB;
+
 	int lenA = 0;
 	int lenB = 0;
+
 	while (curA)
 	{
 		lenA++;
@@ -242,8 +244,8 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 	struct ListNode* shortList = headB;
 	if (lenA < lenB)
 	{
-		struct ListNode* longList = headB;
-		struct ListNode* shortList = headA;
+		longList = headB;
+		shortList = headA;
 	}
 	while (value--)
 	{
@@ -251,7 +253,7 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 	}
 	while (longList && shortList)
 	{
-		if (longList->val == shortList->val)
+		if (longList == shortList)
 		{
 			return longList;
 		}
@@ -263,6 +265,9 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 	}
 	return NULL;
 }
+
+
+
 
 
 
