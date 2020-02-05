@@ -291,163 +291,45 @@ typedef struct ListNode Node; bool hasCycle(struct ListNode *head) {
 }
 
 
-//链表插入排序
 
-typedef struct ListNode Node; struct ListNode* insertionSortList(struct ListNode* head){
-	if (head == NULL || head->next == NULL)
-		return head;
-	//创建排序链表   
-	Node* sortHead = (Node*)malloc(sizeof(Node));
-	//头节点首先插入   
-	sortHead->next = head;
-	head = head->next;
-	sortHead->next->next = NULL;
-	//插入剩余节点 
-	Node* cur = head;
-	while (cur)
+
+//给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 NULL
+
+/**
+* Definition for singly-linked list.
+* struct ListNode {
+*     int val;
+*     struct ListNode *next;
+* };
+*/
+typedef struct ListNode ListNode;
+struct ListNode *detectCycle(struct ListNode *head) {
+	ListNode* slow = head;
+	ListNode* fast = head;
+	while (fast && fast->next)
 	{
-		//首先保存next节点    
-		Node* next = cur->next;
-		// 从排序链表的头开始，给待插入的节点找到一个合适的位置       
-		Node* sortPrev = sortHead;
-		Node* sortCur = sortHead->next;
-		while (sortCur)
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast)
 		{
-			if (cur->val > sortCur->val)
+			ListNode* meet = slow;
+			ListNode* first = head;
+			while (first != meet)
 			{
-				sortPrev = sortCur;
-				sortCur = sortCur->next;
+				first = first->next;
+				meet = meet->next;
 			}
-			else
-			{
-				break;
-			}
+			return first;
 		}
-		//在合适位置进行插入    
-		sortPrev->next = cur;
-		cur->next = sortCur;
-		cur = next;
 	}
-
-	Node* sortList = sortHead->next;
-	free(sortHead);
-
-	return sortList;
+	return NULL;
 }
 
 
 
 
-//删除重复节点
+//给定一个链表，每个节点包含一个额外增加的随机指针，该指针可以指向链表中的任何节点或空节点，要求返回这个链表的深度拷贝。
 
-class Solution {
-public:    ListNode* deleteDuplication(ListNode* pHead)    {
-			   if (pHead == NULL || pHead->next == NULL)    
-				   return pHead;           
-			   struct ListNode* n0 = NULL;
-			   struct ListNode* n1 = pHead;        
-			   struct ListNode* n2 = n1->next;   
-			   while (n2 != NULL)     
-			   {         
-				   //如果相邻节点不相同，则不需要删除，更新节点，继续向后遍历        
-				   if(n1->val != n2->val)      
-				   {              
-					   n0 = n1;   
-					   n1 = n2;     
-					   n2 = n2->next;       
-				   }         
-				   else      
-				   {        
-					   //如果相邻节点相同      
-					   //则n2去找第一个不相同的节点  
-					   while(n2 && n2->val == n1->val)   
-					   {                
-						   n2 = n2->next;           
-					   }           
-					   //重新链接，如果要删除的包括头节点，则更新头节点      
-					   if(n0)                 
-						   n0->next = n2;           
-					   else                 
-						   pHead = n2;      
-					   // 删除掉重复的节点  
-					   while(n1 != n2)      
-					   {                  
-						   struct ListNode* next = n1->next;     
-						   free(n1);                  
-						   n1 = next;             
-					   }             
-					   //更新节点      
-					   n1 = n2;        
-					   if(n2)           
-						   n2 = n2->next; 
-				   }    
-			   }           
-			   return pHead; 
-}
-};
-
-
-
-
-//
-
-
-class Solution {
-public:    Node* copyRandomList(Node* head) {       
-			   // 1.拷贝链表，并插入到原节点的后面    
-			   Node* cur = head;      
-			   while(cur)      
-			   {         
-				   Node* next = cur->next;
-
-			   
-				   Node* copy = (Node*)malloc(sizeof(Node));        
-				   copy->val = cur->val;
-
-	           
-				   cur->next = copy;            
-				   copy->next = next;
-
-				   cur = next;      
-			   }
-
-			   cur = head;      
-			   while(cur)      
-			   {         
-				   Node* copy = cur->next;  
-				   if(cur->random != NULL)
-					   copy->random = cur->random->next;
-				   else                
-					   copy->random = NULL;
-				   cur =copy->next;
-			   }
-
-			   Node* copyHead = NULL, *copyTail = NULL;       
-			   cur = head;      
-			   while(cur)     
-			   {          
-				   Node* copy = cur->next;   
-				   Node* next = copy->next;
-
-				   if(copyTail == NULL)       
-				   {              
-					   copyHead = copyTail = copy;        
-				   }           
-				   else        
-				   {          
-					   copyTail->next = copy;  
-					   copyTail = copy;     
-				   }
-
-			   
-				   cur->next = next;
-
-			   
-				   cur = next;
-}
-
-		   return copyHead;
-} };
 
 
 
