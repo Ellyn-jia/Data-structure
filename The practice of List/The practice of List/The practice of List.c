@@ -30,6 +30,7 @@ struct ListNode* reverseList(struct ListNode* head){
 }
 
 //返回链表中间元素
+//
 typedef struct ListNode ListNode;
 struct ListNode* middleNode(struct ListNode* head){
 	int count = 0;
@@ -52,7 +53,6 @@ struct ListNode* middleNode(struct ListNode* head){
 
 
 //合并两个有序链表
-
 
 // 创建一个新的带头单链表，每次取小的尾插
 
@@ -120,6 +120,8 @@ struct ListNode *next;
 ListNode(int x) : val(x), next(NULL) {}
 };*/
 
+//定义两个链表，一个存放小于x结点,一个存放大于等于x结点，最后再将两个链表链接在一起
+
 class Partition {
 public:
 	ListNode* partition(ListNode* pHead, int x) {
@@ -165,6 +167,9 @@ int val;
 struct ListNode *next;
 ListNode(int x) : val(x), next(NULL) {}
 };*/
+
+//定义快慢指针，找到中间元素，将中间元素之后的链表逆置后与前半部分比较
+
 class PalindromeList {
 public:
 	bool chkPalindrome(ListNode* A) {
@@ -212,8 +217,8 @@ public:
 
 //找到两个单链表相交的起始节点。
 
-
-
+//算出两个链表的长度差值，让长的链表的指针前走差值步，然后短的链表的指针和长的链表的指针一起走
+//如果两指针相同则是起始结点
 
 /**
 * Definition for singly-linked list.
@@ -272,7 +277,7 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 
 
 //判断是否有环
-
+//定义快慢指针，如果有环，快指针一定能够追上慢指针
 
 typedef struct ListNode Node; bool hasCycle(struct ListNode *head) {
 	Node* slow = head;   
@@ -294,6 +299,8 @@ typedef struct ListNode Node; bool hasCycle(struct ListNode *head) {
 
 
 //给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 NULL
+//在快慢指针的相遇点的指针与链表开始的指针同步走，相遇点即为入环的第一个结点
+//  起点到入环的长度 = N倍的环的周长 - 入环到相遇的长度
 
 /**
 * Definition for singly-linked list.
