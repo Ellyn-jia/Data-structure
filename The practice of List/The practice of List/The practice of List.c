@@ -336,7 +336,73 @@ struct ListNode *detectCycle(struct ListNode *head) {
 
 
 //给定一个链表，每个节点包含一个额外增加的随机指针，该指针可以指向链表中的任何节点或空节点，要求返回这个链表的深度拷贝。
+//先把copy的结点链接到原来结点的后面，在把随机指针拷贝一遍，最后把copy的指针拆下来
 
+/*
+// Definition for a Node.
+class Node {
+public:
+int val;
+Node* next;
+Node* random;
+
+Node(int _val) {
+val = _val;
+next = NULL;
+random = NULL;
+}
+};
+*/
+class Solution {
+public:
+	Node* copyRandomList(Node* head) {
+		Node* cur = head;
+		while (cur)
+		{
+			Node* next = cur->next;
+			Node* copy = (Node*)malloc(sizeof(Node));
+			copy->val = cur->val;
+			cur->next = copy;
+			copy->next = next;
+			cur = next;
+		}
+		cur = head;
+		while (cur)
+		{
+			Node* copy = cur->next;
+			if (cur->random != NULL)
+			{
+				copy->random = cur->random->next;
+			}
+			else
+			{
+				copy->random = NULL;
+			}
+			cur = copy->next;
+		}
+		Node* copyHead = NULL;
+		Node* copyTail = NULL;
+		cur = head;
+		while (cur)
+		{
+			Node* copy = cur->next;
+			Node* next = copy->next;
+			if (copyTail == NULL)
+			{
+				copyHead = copyTail = copy;
+			}
+			else
+			{
+				copyTail->next = copy;
+				copyTail = copy;
+			}
+			cur->next = next;
+			cur = next;
+		}
+		return copyHead;
+
+	}
+};
 
 
 
