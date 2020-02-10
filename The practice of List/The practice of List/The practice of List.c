@@ -406,3 +406,109 @@ public:
 
 
 
+
+//对链表进行插入排序
+
+/**
+* Definition for singly-linked list.
+* struct ListNode {
+*     int val;
+*     struct ListNode *next;
+* };
+*/
+
+typedef struct ListNode ListNode;
+struct ListNode* insertionSortList(struct ListNode* head){
+	if (head == NULL || head->next == NULL)
+		return head;
+	ListNode* IsHead = (ListNode*)malloc(sizeof(ListNode));
+	IsHead->next = head;
+	head = head->next;
+	IsHead->next->next = NULL;
+	ListNode* cur = head;
+	while (cur)
+	{
+		ListNode* next = cur->next;
+		ListNode* Isprev = IsHead;
+		ListNode* Iscur = IsHead->next;
+		while (Iscur)
+		{
+			if (Iscur->val < cur->val)
+			{
+				Isprev = Iscur;
+				Iscur = Iscur->next;
+			}
+			else
+				break;
+
+		}
+		Isprev->next = cur;
+		cur->next = Iscur;
+		cur = next;
+	}
+	ListNode* IsList = IsHead->next;
+	free(IsHead);
+	return IsList;
+}
+
+
+//在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 
+//例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+
+/*
+struct ListNode {
+int val;
+struct ListNode *next;
+ListNode(int x) :
+val(x), next(NULL) {
+}
+};
+*/
+class Solution {
+public:
+	ListNode* deleteDuplication(ListNode* pHead)
+	{
+		if (pHead == NULL || pHead->next == NULL)
+			return pHead;
+		ListNode* n0 = NULL;
+		ListNode* n1 = pHead;
+		ListNode* n2 = pHead->next;
+		while (n2)
+		{
+			if (n1->val != n2->val)
+			{
+				n0 = n1;
+				n1 = n2;
+				n2 = n2->next;
+			}
+			else
+			{
+				while (n2 && n2->val == n1->val)
+				{
+					n2 = n2->next;
+				}
+				if (n0)
+				{
+					n0->next = n2;
+				}
+				else
+				{
+					pHead = n2;
+				}
+				while (n1 != n2)
+				{
+					ListNode* next = n1->next;
+					free(n1);
+					n1 = next;
+				}
+				n1 = n2;
+				if (n2)
+				{
+					n2 = n2->next;
+				}
+			}
+		}
+
+		return pHead;
+	}
+};
