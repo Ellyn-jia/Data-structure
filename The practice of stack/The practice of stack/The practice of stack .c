@@ -2,48 +2,112 @@
 
 // 括号匹配
 
-bool isValid(char* s) {
-	struct Stack st;    StackInit(&st, 10); 
-	//括号数组  
-	char symbols[][2] = {         { '(', ')' },        { '[', ']' },        { '{', '}' },    };  
-	while (*s)   
-	{       
-		int i = 0;    
-		for (; i < 3; ++i)      
-		{           
-			//如果为左括号，则入栈
-			if (*s == symbols[i][0]) 
-			{             
-				StackPush(&st, *s);    
-				++s;            
-				break;         
-			}      
-		}         
-		if(i == 3)  
-		{          
-			// 走到这里说明*s不是左括号，取出栈顶元素     
-			// 判断是否和当前的右括号匹配        
-			char top = StackTop(&st);          
-			for (int j = 0; j < 3; ++j)        
-			{               
-				if (*s == symbols[j][1])        
-				{               
-					if (top == symbols[j][0])           
-					{                       
-						++s;                
-						StackPop(&st);     
-						break;            
-					}                
-					else             
-					{               
-						//如果没有一个可以匹配，说明不匹配          
-						return false;               
-					}           
-				}       
-			}      
+typedef char STDataType;
+typedef struct Stack
+{
+	STDataType* a;
+	int top;
+	int capacity;
+}Stack;
+
+void StackInit(Stack* p)
+{
+	assert(p);
+	p->a = NULL;
+	p->capacity = 0;
+	p->top = 0;
+}
+
+void StackPush(Stack* p, STDataType x)
+{
+	assert(p);
+
+	if (p->top == p->capacity)
+	{
+		int newcapacity = p->capacity == 0 ? 4 : p->capacity * 2;
+		p->a = (STDataType*)realloc(p->a, sizeof(STDataType)*newcapacity);
+		p->capacity = newcapacity;
+	}
+	p->a[p->top] = x;
+	p->top++;
+}
+STDataType StackTop(Stack* p)
+{
+	assert(p);
+	return p->a[p->top - 1];
+}
+void StackPop(Stack* p)
+{
+	assert(p && p->top != 0);
+	p->top--;
+}
+int StackEmpty(Stack* p)
+{
+	assert(p);
+	return p->top == 0 ? 1 : 0;
+}
+int StackSize(Stack* p)
+{
+	return p->top;
+}
+void StackDestory(Stack* p)
+{
+	free(p->a);
+	p->a = NULL;
+	p->capacity = 0;
+	p->top = 0;
+}
+
+
+bool isValid(char * s){
+	Stack st;
+	StackInit(&st);
+	char symbol[3][2] = { '(', ')', '[', ']', '{', '}' };
+	while (*s)
+	{
+		int i = 0;
+		for (i = 0; i < 3; i++)
+		{
+			if (*s == symbol[i][0])
+			{
+				StackPush(&st, *s);
+				s++;
+				break;
+			}
 		}
+		if (i == 3)
+		{
+			if (StackEmpty(&st) == 1)
+				return false;
+			char top = StackTop(&st);
+			int j = 0;
+			for (j = 0; j < 3; j++)
+			{
+				if (*s == symbol[j][1])
+				{
+					if (top == symbol[j][0])
+					{
+						s++;
+						StackPop(&st);
+						break;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			}
+		}
+	}
+	if (StackEmpty(&st) == 1)
+		return true;
+	else
+		return false;
+
+
+}
 
 
 
 
-		//用队列实现栈
+//用队列实现栈
