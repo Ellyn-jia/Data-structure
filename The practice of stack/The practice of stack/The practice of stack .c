@@ -110,9 +110,12 @@ bool isValid(char * s){
 
 
 
+
+
+
+
+
 //用队列实现栈
-
-
 typedef int QDataType;
 typedef struct QueueNode
 {
@@ -196,3 +199,103 @@ void QueueDestory(Queue* q)
 	q->end = q->first = NULL;
 }
 
+
+
+
+typedef struct {
+	Queue q1;
+	Queue q2;
+
+} MyStack;
+
+/** Initialize your data structure here. */
+
+MyStack* myStackCreate() {
+
+	MyStack* p = (MyStack*)malloc(sizeof(MyStack));
+	QueueInit(&p->q1);
+	QueueInit(&p->q2);
+	return p;
+}
+
+/** Push element x onto stack. */
+void myStackPush(MyStack* obj, int x) {
+	if (QueueEmpty(&obj->q1) != 0)
+	{
+		QueuePush(&obj->q1, x);
+	}
+	else
+	{
+		QueuePush(&obj->q2, x);
+	}
+}
+
+/** Removes the element on top of the stack and returns that element. */
+int myStackPop(MyStack* obj) {
+	Queue* EmptyQueue = &obj->q1;
+	Queue* AntiEmptyQueue = &obj->q2;
+	if (QueueEmpty(&obj->q2))
+	{
+		EmptyQueue = &obj->q2;
+		AntiEmptyQueue = &obj->q1;
+	}
+	while (QueueSize(AntiEmptyQueue) > 1)
+	{
+		QueuePush(EmptyQueue, QueueFirst(AntiEmptyQueue));
+		QueuePop(AntiEmptyQueue);
+
+	}
+	int top = QueueFirst(AntiEmptyQueue);
+	QueuePop(AntiEmptyQueue);
+	return top;
+
+}
+
+/** Get the top element. */
+int myStackTop(MyStack* obj) {
+	Queue* EmptyQueue = &obj->q1;
+	Queue* AntiEmptyQueue = &obj->q2;
+	if (QueueEmpty(&obj->q2))
+	{
+		EmptyQueue = &obj->q2;
+		AntiEmptyQueue = &obj->q1;
+	}
+
+	return QueueEnd(AntiEmptyQueue);
+
+}
+
+/** Returns whether the stack is empty. */
+bool myStackEmpty(MyStack* obj) {
+
+	if (QueueEmpty(&obj->q1) && QueueEmpty(&obj->q2))
+		return true;
+	else
+		return false;
+}
+
+void myStackFree(MyStack* obj) {
+	QueueDestory(&obj->q1);
+	QueueDestory(&obj->q2);
+	free(obj);
+
+}
+
+/**
+* Your MyStack struct will be instantiated and called as such:
+* MyStack* obj = myStackCreate();
+* myStackPush(obj, x);
+
+* int param_2 = myStackPop(obj);
+
+* int param_3 = myStackTop(obj);
+
+* bool param_4 = myStackEmpty(obj);
+
+* myStackFree(obj);
+*/
+
+
+
+
+//用栈实现队列
