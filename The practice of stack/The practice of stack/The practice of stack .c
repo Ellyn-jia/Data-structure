@@ -298,4 +298,247 @@ void myStackFree(MyStack* obj) {
 
 
 
+
+
+
+
 //用栈实现队列
+typedef int STDataType;
+typedef struct Stack
+{
+	STDataType* a;
+	int top;
+	int capacity;
+}Stack;
+
+void StackInit(Stack* p)
+{
+	assert(p);
+	p->a = NULL;
+	p->capacity = 0;
+	p->top = 0;
+}
+
+void StackPush(Stack* p, STDataType x)
+{
+	assert(p);
+
+	if (p->top == p->capacity)
+	{
+		int newcapacity = p->capacity == 0 ? 4 : p->capacity * 2;
+		p->a = (STDataType*)realloc(p->a, sizeof(STDataType)*newcapacity);
+		p->capacity = newcapacity;
+	}
+	p->a[p->top] = x;
+	p->top++;
+}
+STDataType StackTop(Stack* p)
+{
+	assert(p);
+	return p->a[p->top - 1];
+}
+void StackPop(Stack* p)
+{
+	assert(p && p->top != 0);
+	p->top--;
+}
+int StackEmpty(Stack* p)
+{
+	assert(p);
+	return p->top == 0 ? 1 : 0;
+}
+int StackSize(Stack* p)
+{
+	return p->top;
+}
+void StackDestory(Stack* p)
+{
+	free(p->a);
+	p->a = NULL;
+	p->capacity = 0;
+	p->top = 0;
+}
+
+
+typedef struct {
+	Stack PushS;
+	Stack PopS;
+
+} MyQueue;
+
+/** Initialize your data structure here. */
+
+MyQueue* myQueueCreate() {
+	MyQueue* pQueue = (MyQueue*)malloc(sizeof(MyQueue));
+	StackInit(&pQueue->PushS);
+	StackInit(&pQueue->PopS);
+	return pQueue;
+}
+
+/** Push element x to the back of queue. */
+void myQueuePush(MyQueue* obj, int x) {
+	StackPush(&obj->PushS, x);
+}
+
+/** Removes the element from in front of queue and returns that element. */
+int myQueuePop(MyQueue* obj) {
+	if (StackEmpty(&obj->PopS))
+	{
+		while (!StackEmpty(&obj->PushS))
+		{
+			StackPush(&obj->PopS, StackTop(&obj->PushS));
+			StackPop(&obj->PushS);
+		}
+	}
+	int top = StackTop(&obj->PopS);
+	StackPop(&obj->PopS);
+	return top;
+
+}
+
+/** Get the front element. */
+int myQueuePeek(MyQueue* obj) {
+	if (StackEmpty(&obj->PopS))
+	{
+		while (!StackEmpty(&obj->PushS))
+		{
+			StackPush(&obj->PopS, StackTop(&obj->PushS));
+			StackPop(&obj->PushS);
+		}
+	}
+	return StackTop(&obj->PopS);
+
+}
+
+/** Returns whether the queue is empty. */
+bool myQueueEmpty(MyQueue* obj) {
+	if (StackEmpty(&obj->PushS) && StackEmpty(&obj->PopS))
+		return true;
+	else
+		return false;
+
+}
+
+void myQueueFree(MyQueue* obj) {
+	StackDestory(&obj->PushS);
+	StackDestory(&obj->PopS);
+	free(obj);
+}
+
+/**
+* Your MyQueue struct will be instantiated and called as such:
+* MyQueue* obj = myQueueCreate();
+* myQueuePush(obj, x);
+
+* int param_2 = myQueuePop(obj);
+
+* int param_3 = myQueuePeek(obj);
+
+* bool param_4 = myQueueEmpty(obj);
+
+* myQueueFree(obj);
+*/
+
+
+
+
+
+
+
+
+
+//设计循环队列
+typedef struct {
+	int* queue;
+	int front;
+	int last;
+	int k;
+
+} MyCircularQueue;
+
+/** Initialize your data structure here. Set the size of the queue to be k. */
+
+MyCircularQueue* myCircularQueueCreate(int k) {
+	MyCircularQueue* p = (MyCircularQueue*)malloc(sizeof(MyCircularQueue));
+	p->queue = (int*)malloc(sizeof(int)*(k + 1));
+	p->front = 0;
+	p->last = 0;
+	p->k = k;
+
+	return p;
+}
+
+/** Insert an element into the circular queue. Return true if the operation is successful. */
+bool myCircularQueueEnQueue(MyCircularQueue* obj, int value) {
+	if ((obj->last + 1) % (obj->k + 1) == (obj->front))
+		return false;
+	obj->queue[obj->last++] = value;
+	if (obj->last == obj->k + 1)
+		obj->last = 0;
+	return true;
+
+}
+
+/** Delete an element from the circular queue. Return true if the operation is successful. */
+bool myCircularQueueDeQueue(MyCircularQueue* obj) {
+	if (obj->last == obj->front)
+		return false;
+	obj->front++;
+	if (obj->front == obj->k + 1)
+		obj->front = 0;
+	return true;
+}
+
+/** Get the front item from the queue. */
+int myCircularQueueFront(MyCircularQueue* obj) {
+	if (obj->front == obj->last)
+		return -1;
+	else
+		return obj->queue[obj->front];
+}
+
+/** Get the last item from the queue. */
+int myCircularQueueRear(MyCircularQueue* obj) {
+	if (obj->front == obj->last)
+		return -1;
+	if (obj->last == 0)
+		return obj->queue[obj->k];
+	else
+		return obj->queue[obj->last - 1];
+}
+
+/** Checks whether the circular queue is empty or not. */
+bool myCircularQueueIsEmpty(MyCircularQueue* obj) {
+	return obj->front == obj->last;
+}
+
+/** Checks whether the circular queue is full or not. */
+bool myCircularQueueIsFull(MyCircularQueue* obj) {
+
+	return (obj->last + 1) % (obj->k + 1) == obj->front;
+}
+
+void myCircularQueueFree(MyCircularQueue* obj) {
+	free(obj->queue);
+	free(obj);
+
+}
+
+/**
+* Your MyCircularQueue struct will be instantiated and called as such:
+* MyCircularQueue* obj = myCircularQueueCreate(k);
+* bool param_1 = myCircularQueueEnQueue(obj, value);
+
+* bool param_2 = myCircularQueueDeQueue(obj);
+
+* int param_3 = myCircularQueueFront(obj);
+
+* int param_4 = myCircularQueueRear(obj);
+
+* bool param_5 = myCircularQueueIsEmpty(obj);
+
+* bool param_6 = myCircularQueueIsFull(obj);
+
+* myCircularQueueFree(obj);
+*/
+
