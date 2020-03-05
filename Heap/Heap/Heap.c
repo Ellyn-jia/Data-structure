@@ -102,3 +102,20 @@ int HeapEmpty(Heap* hp)
 {
 	return hp->size == 0 ? 1 : 0;
 }
+
+
+
+void TopK(int* a, int sum, int num)
+{
+	Heap* hp;
+	HeapCreat(&hp, a, num);
+	for (int i = num; i < sum; i++)
+	{
+		if (HeapTop(&hp) < a[i])
+		{
+			HeapPop(&hp);
+			HeapPush(&hp, a[i]);
+		}
+	}
+}
+
