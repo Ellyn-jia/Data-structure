@@ -144,3 +144,124 @@ bool isUnivalTree(struct TreeNode* root){
 	return isUnivalTree(root->left) && isUnivalTree(root->right);
 
 }
+
+
+
+//二叉树前序遍历
+
+/**
+* Definition for a binary tree node.
+* struct TreeNode {
+*     int val;
+*     struct TreeNode *left;
+*     struct TreeNode *right;
+* };
+*/
+
+
+/**
+* Note: The returned array must be malloced, assume caller calls free().
+*/
+
+int Treesize(struct TreeNode* root)
+{
+	if (root == NULL)
+		return 0;
+	return 1 + Treesize(root->left) + Treesize(root->right);
+}
+
+void _preorderTraversal(struct TreeNode* root, int* A, int* pi)
+{
+	if (root == NULL)
+		return;
+	A[(*pi)++] = root->val;
+	_preorderTraversal(root->left, A, pi);
+	_preorderTraversal(root->right, A, pi);
+}
+
+int* preorderTraversal(struct TreeNode* root, int* returnSize){
+	int size = Treesize(root);
+	int* A = (int*)malloc(sizeof(int)*size);
+
+	*returnSize = size;
+
+	int i = 0;
+	_preorderTraversal(root, A, &i);
+	return A;
+}
+
+//二叉树中序
+/**
+* Definition for a binary tree node.
+* struct TreeNode {
+*     int val;
+*     struct TreeNode *left;
+*     struct TreeNode *right;
+* };
+*/
+
+
+/**
+* Note: The returned array must be malloced, assume caller calls free().
+*/
+
+int Treesize(struct TreeNode* root){
+	if (root == NULL)
+		return 0;
+	return 1 + Treesize(root->left) + Treesize(root->right);
+}
+void _inorderTraversal(struct TreeNode* root, int* A, int* pi){
+	if (root == NULL)
+		return;
+	_inorderTraversal(root->left, A, pi);
+	A[(*pi)++] = root->val;
+	_inorderTraversal(root->right, A, pi);
+}
+int* inorderTraversal(struct TreeNode* root, int* returnSize){
+
+	int size = Treesize(root);
+	int* A = (int*)malloc(sizeof(int)*size);
+	*returnSize = size;
+
+	int i = 0;
+	_inorderTraversal(root, A, &i);
+	return A;
+}
+
+//二叉树后序
+/**
+* Definition for a binary tree node.
+* struct TreeNode {
+*     int val;
+*     struct TreeNode *left;
+*     struct TreeNode *right;
+* };
+*/
+
+
+/**
+* Note: The returned array must be malloced, assume caller calls free().
+*/
+int Treesize(struct TreeNode* root)
+{
+	if (root == NULL)
+		return 0;
+	return 1 + Treesize(root->left) + Treesize(root->right);
+}
+void _postorderTraversal(struct TreeNode* root, int* A, int* pi)
+{
+	if (root == NULL)
+		return;
+	_postorderTraversal(root->left, A, pi);
+	_postorderTraversal(root->right, A, pi);
+	A[(*pi)++] = root->val;
+}
+int* postorderTraversal(struct TreeNode* root, int* returnSize){
+	int size = Treesize(root);
+	int* A = (int*)malloc(sizeof(int)*size);
+	*returnSize = size;
+
+	int i = 0;
+	_postorderTraversal(root, A, &i);
+	return A;
+}
