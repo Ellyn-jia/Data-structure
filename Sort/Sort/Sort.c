@@ -76,3 +76,55 @@ void SelectSort(int* a, int n){
 
 	}
 }
+
+
+void AdjustDowm(int* a, int n, int root)
+{
+	int parent = root;
+	int child = 2 * parent + 1;
+	while (child < n)
+	{
+		if (child + 1 < n && a[child - 1] < a[child])
+		{
+			child++;
+		}
+		if (a[parent] > a[child])
+		{
+			swap(&a[parent], &a[child]);
+			parent = child;
+			child = 2 * parent + 1;
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+void HeapSort(int* a, int n)
+{
+	for (int i = (n - 2) / 2; i >= 0; i--)
+	{
+		AdjustDowm(a, n, i);
+	}
+	int end = n - 1;
+	while (end > 0)
+	{
+		Swap(&a[0], &a[end]);
+		AdjustDowm(a, end, 0);
+		end--;
+	}
+}
+
+
+
+void BubbleSort(int* a, int n)
+{
+	for (int i = 0; i <= n - 1; i++)
+	{
+		for (int j = 0; j <= n - 1 - i; j++)
+		{
+			if (a[j] > a[j + 1])
+				Swap(&a[j], &a[j + 1]);
+		}
+	}
+}
