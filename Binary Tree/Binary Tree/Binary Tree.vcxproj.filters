@@ -21,6 +21,9 @@
     <ClCompile Include="Test.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Queue\Queue\Queue.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Binary Tree .h">
