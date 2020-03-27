@@ -39,6 +39,23 @@ void AdjustDowm(HeapDataType* a, int n, int root)
 	}
 }
 
+void HeapSort(int* a, int n)
+{
+	for (int i = (n - 2) / 2; i > = 0; i--)
+		AdjustDowm(a, n, i);
+	int end = n - 1;
+	while (end > 0)
+	{
+		int tmp = a[0];
+		a[0] = a[end];
+		a[end] = tmp;
+
+		AdjustDowm(a, end, 0);	
+		end--;					
+
+	}
+}
+
 void HeapCreat(Heap* hp, HeapDataType* a, int n)
 {
 	hp->a = (HeapDataType*)malloc(sizeof(HeapDataType)*n);
