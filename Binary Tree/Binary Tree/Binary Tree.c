@@ -1,6 +1,6 @@
 #include"Binary Tree .h"
 
-TreeNode* BinaryTreeCreate(BTDataType* a, int* pi)
+TreeNode* BTCreate(BTDataType* a, int* pi)
 {
 	if (a[*pi] == '#')
 		return NULL;
@@ -9,139 +9,130 @@ TreeNode* BinaryTreeCreate(BTDataType* a, int* pi)
 		TreeNode* root = (TreeNode*)malloc(sizeof(TreeNode));
 		root->data = a[*pi];
 		(*pi)++;
-		root->left = BinaryTreeCreate(a, pi);
+		root->left = BTCreate(a, pi);
 		(*pi)++;
-		root->right = BinaryTreeCreate(a, pi);
+		root->right = BTCreate(a, pi);
 		return root;
 	}
 }
 
-void BinaryTreeDestory(TreeNode** root)
+void BTDestory(TreeNode* root)
 {
-	if (*root)
-	{
-		BinaryTreeDestory((*root)->left);
-		BinaryTreeDestory((*root)->right);
-		free(*root);
-		*root = NULL;
-	}
+	if (root == NULL)
+		return;
+	BTDestory(root->left);
+	BTDestory(root->right);
+	free(root);
 }
 
-int BinaryTreeSize(TreeNode* root)
+int TreeSize(TreeNode* root)
 {
 	if (root == NULL)
 		return 0;
 	return 1 + Treesize(root->left) + Treesize(root->right);
 }
 
-int BinaryTreeLeafSize(TreeNode* root)
+int LeafSize(TreeNode* root)
 {
 	if (root == NULL)
 		return 0;
 	if (root->left == NULL && root->right == NULL)
 		return 1;
-	return BinaryTreeLeafSize(root->left) + BinaryTreeLeafSize(root->right);
+	return LeafSize(root->left) + LeafSize(root->right);
 }
-int BinaryTreeLevelKSize(TreeNode* root, int k)
+
+int LevelKSize(TreeNode* root, int k)
 {
 	if (root == NULL)
 		return 0;
 	if (k == 1)
 		return 1;
-	return BinaryTreeLevelKSize(root->left, k - 1) + BinaryTreeLevelKSize(root->right, k - 1);
+	return LevelKSize(root->left, k - 1) + LevelKSize(root->right, k - 1);
 }
-TreeNode* BinaryTreeFind(TreeNode* root, BTDataType x)
+
+TreeNode* TreeFind(TreeNode* root, BTDataType x)
 {
 	if (root == NULL)
 		return NULL;
 	if (root->data == x)
 		return root;
-	TreeNode* ret = BinaryTreeFind(root->left, x);
+	TreeNode* ret = TreeFind(root->left, x);
 	if (ret)
 		return ret;
-	ret = BinaryTreeFind(root->right, x);
+	ret = TreeFind(root->right, x);
 	if (ret)
 		return ret;
+	return NULL;
+}
 
-}
-void BinaryTreePrevOrder(TreeNode* root)
+void PrevOrder(TreeNode* root)
 {
-	if (root)
-	{
-		putchar(root);
-		BinaryTreePrevOrder(root->left);
-		BinaryTreePrevOrder(root->right);
-	}
+	if (root == NULL)
+		return;
+	printf("%c ", root->data);
+	PrevOrder(root->left);
+	PrevOrder(root->right);
 }
-void BinaryTreeInOrder(TreeNode* root)
+
+
+void InOrder(TreeNode* root)
 {
-	if (root)
-	{
-		BinaryTreeInOrder(root->left);
-		putchar(root);
-		BinaryTreeInOrder(root->right);
-	}
+	if (root == NULL)
+		return;
+	InOrder(root->left);
+	printf("%c ", root->data);
+	InOrder(root->right);
 }
-void BinaryTreePostOrder(TreeNode* root)
+
+
+void PostOrder(TreeNode* root)
 {
-	if (root)
-	{
-		BinaryTreeInOrder(root->left);
-		BinaryTreeInOrder(root->right);
-		putchar(root);
-	}
+	if (root == NULL)
+		return;
+	PostOrder(root->left);
+	PostOrder(root->right);
+	printf("%c ", root->data);
 }
+
 void BinaryTreeLevelOrder(TreeNode* root)
 {
-	Queue qu;
-	TreeNode * cur;
-	QueueInit(&qu);
-	QueuePush(&qu, root);
-	while (!QueueIsEmpty(&qu))
+	Queue q;
+	QueueInit(q);
+	if (root == NULL)
+		QueuePush(&q, root);
+	while (!EmptyQueue(&q))
 	{
-		cur = QueueTop(&qu);
-		putchar(cur->data);
-		if (cur->left)
-		{
-			QueuePush(&qu, cur->left);
-		}
-
-		if (cur->right)
-		{
-			QueuePush(&qu, cur->right);
-		}
-		QueuePop(&qu);
+		TreeNode* front = QueueFront(&q);
+		QueuePop(&q);
+		printf("%c ", front->data);
+		if (front->left)
+			QueuePush(&q, front->left);
+		if (front->right)
+			QueuePush(&q, front->right);
 	}
-	QueueDestory(&qu);
 }
-
 int BinaryTreeComplete(TreeNode* root)
 {
-	Queue qu;
-	TreeNode * cur;
-	int tag = 0;
-	QueueInit(&qu);
-
-	QueuePush(&qu, root);
-
-	while (!QueueIsEmpty(&qu))
+	Queue q;
+	QueueInit(q);
+	if (root == NULL)
+		QueuePush(&q, root);
+	while (!EmptyQueue(&q))
 	{
-		cur = QueueTop(&qu);
+		TreeNode* front = QueueFront(&q);
+		QueuePop(&q);
+		if (front == NULL)
+			break;
 
-		putchar(cur->data);
-
-		if (cur->right && !cur->left)
-			return 0;
-		if (tag && (cur->right || cur->left))
-			return 0;
-		if (cur->left)
-			QueuePush(&qu, cur->left);
-		if (cur->right)
-			QueuePush(&qu, cur->right);
-		else
-			tag = 1;
-		QueuePop(&qu);
+		QueuePush(&q, root->left);
+		QueuePush(&q, root->right);
 	}
-	QueueDestory(&qu);
+	while (!EmptyQueue(&q))
+	{
+		TreeNode* front = QueueFront(&q);
+		QueuePop(&q);
+		if (front != NULL)
+			return 0;
+	}
 	return 1;
 }

@@ -65,7 +65,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Queue\Queue\Queue.c" />
     <ClCompile Include="Binary Tree.c" />
     <ClCompile Include="Test.c" />
   </ItemGroup>
