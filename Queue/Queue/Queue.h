@@ -1,4 +1,4 @@
-#pragma once
+
 #include <stdio.h>
 #include <malloc.h>
 #include <assert.h>
@@ -9,6 +9,7 @@ typedef struct QueueNode
 	QDataType data;
 	struct QueueNode* next;
 }QueueNode;
+
 
 typedef struct Queue
 {
