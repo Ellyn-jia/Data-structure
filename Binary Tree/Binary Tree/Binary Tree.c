@@ -36,11 +36,19 @@ int BinaryTreeSize(TreeNode* root)
 
 int BinaryTreeLeafSize(TreeNode* root)
 {
-
+	if (root == NULL)
+		return 0;
+	if (root->left == NULL && root->right == NULL)
+		return 1;
+	return BinaryTreeLeafSize(root->left) + BinaryTreeLeafSize(root->right);
 }
 int BinaryTreeLevelKSize(TreeNode* root, int k)
 {
-
+	if (root == NULL)
+		return 0;
+	if (k == 1)
+		return 1;
+	return BinaryTreeLevelKSize(root->left, k - 1) + BinaryTreeLevelKSize(root->right, k - 1);
 }
 TreeNode* BinaryTreeFind(TreeNode* root, BTDataType x)
 {
